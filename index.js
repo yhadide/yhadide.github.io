@@ -35,3 +35,16 @@ const headerLogoConatiner = document.querySelector('.header__logo-container')
 headerLogoConatiner.addEventListener('click', () => {
   location.href = 'index.html'
 })
+
+let slideIndex = 1; // Start with the first image
+showSlides();
+
+function showSlides() {
+  let img = document.getElementById("slideshowImage");
+  img.src = `./assets/png/${slideIndex}.png`; // Set the image source
+  slideIndex++; // Move to the next image
+  if (slideIndex > 4) {
+    slideIndex = 1; // Reset index when it reaches the end
+  }
+  setTimeout(showSlides, 2000); // Change image every 2 seconds
+}
