@@ -48,3 +48,17 @@ function showSlides() {
   }
   setTimeout(showSlides, 2000); // Change image every 2 seconds
 }
+
+
+
+let slideIndexpj2 = 5; // Start with the first image
+showSlidespj2();
+function showSlidespj2() {
+  let img = document.getElementById("slideshowImagePj2");
+  img.src = `./assets/png/${slideIndexpj2}.png`; // Set the image source
+  slideIndexpj2++; // Move to the next image
+  if (slideIndexpj2 > 8) {
+    slideIndexpj2 = 5; // Reset index when it reaches the end
+  }
+  setTimeout(showSlidespj2, 2000); // Change image every 2 seconds
+}
