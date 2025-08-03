@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youness Hadide - Web Designer Portfolio</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            border: 4px solid #e67e22;
+            object-fit: cover;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            color: #e67e22;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #7f8c8d;
+        }
+
+        .contact-item i {
+            color: #e67e22;
+        }
+
+        /* About Section */
+        .about {
+            background: white;
+            padding: 3rem 0;
+            margin: 2rem 0;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .about h2 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .about p {
+            font-size: 1.1rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #555;
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 2rem 0;
+        }
+
+        .projects h2 {
+            color: white;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .project-link {
+            background: #e67e22;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .project-link:hover {
+            background: #d35400;
+        }
+
+        .project-description {
+            color: #555;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .project-tech {
+            background: #f8f9fa;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #666;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        /* Image Toggle */
+        .image-toggle {
+            margin-top: 1rem;
+        }
+
+        .toggle-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .toggle-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .toggle-btn.active {
+            background: #e67e22;
+        }
+
+        .toggle-btn:hover {
+            background: #2980b9;
+        }
+
+        .toggle-btn.active:hover {
+            background: #d35400;
+        }
+
+        .image-container {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .image-container.active {
+            display: block;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Skills Section */
+        .skills {
+            background: white;
+            padding: 3rem 0;
+            margin: 2rem 0;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .skills h2 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category h3 {
+            color: #e67e22;
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-category p {
+            color: #555;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(44, 62, 80, 0.9);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        .footer h3 {
+            color: #e67e22;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .project-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .toggle-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="profile-img" style="background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23e67e22"/><text x="50" y="55" text-anchor="middle" fill="white" font-size="20" font-family="Arial">YH</text></svg>') center/cover;"></div>
+            <h1>Youness Hadide</h1>
+            <p class="subtitle">Web Designer & Developer</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Rabat, Morocco</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="83faecf6ede6f0f0adebe2e7eae7e6c3e4eee2eaefade0ecee">[email&#160;protected]</a></span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+212 645-53-60-05</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-linkedin"></i>
+                    <a href="https://www.linkedin.com/in/youness-hadide-157751267/" target="_blank" style="color: #7f8c8d; text-decoration: none;">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="container">
+            <h2><i class="fas fa-user"></i> About Me</h2>
+            <p>Creative and detail-oriented web designer with real-world experience crafting visually appealing and functional websites for businesses and agencies. Recently graduated as a State Engineer in Computer Science, I bring a technical foundation paired with a strong design sensibility. My current focus is on delivering clean, performant, and user-friendly web experiences across CMS platforms like WordPress and Shopify, as well as custom-built solutions.</p>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects">
+        <div class="container">
+            <h2><i class="fas fa-laptop-code"></i> Featured Projects</h2>
+
+            <!-- GelBall Project -->
+            <div class="project-card">
+                <div class="project-header">
+                    <h3 class="project-title">GelBall.ma</h3>
+                    <a href="https://gelball.ma" target="_blank" class="project-link">
+                        <i class="fas fa-external-link-alt"></i>
+                        Visit Website
+                    </a>
+                </div>
+                <p class="project-description">
+                    Discover the world of GelBall, an eco-friendly recreational product. Designed and developed a vibrant e-commerce website featuring innovative recreational products with a modern design using bold orange and blue color scheme.
+                </p>
+                <span class="project-tech">WordPress • E-commerce • Responsive Design</span>
+
+                <div class="image-toggle">
+                    <div class="toggle-buttons">
+                        <button class="toggle-btn active" onclick="toggleImage('gelball', 'desktop')">
+                            <i class="fas fa-desktop"></i> Desktop View
+                        </button>
+                        <button class="toggle-btn" onclick="toggleImage('gelball', 'mobile')">
+                            <i class="fas fa-mobile-alt"></i> Mobile View
+                        </button>
+                    </div>
+                    <div id="gelball-desktop" class="image-container active">
+                        <img src="gelball_desktop.png" alt="GelBall Desktop View" />
+                    </div>
+                    <div id="gelball-mobile" class="image-container">
+                        <img src="gelball_mobile.png" alt="GelBall Mobile View" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Parfum Royale -->
+            <div class="project-card">
+                <div class="project-header">
+                    <h3 class="project-title">Parfum-Royale.net</h3>
+                    <a href="https://parfum-royale.net" target="_blank" class="project-link">
+                        <i class="fas fa-external-link-alt"></i>
+                        Visit Website
+                    </a>
+                </div>
+                <p class="project-description">
+                    Indulge in luxury perfumes with Parfum Royale. Browse their collection of high-quality fragrances for men and women. Elegant e-commerce platform with sophisticated design and product showcases.
+                </p>
+                <span class="project-tech">E-commerce • Luxury Design • Product Showcase</span>
+            </div>
+
+            <!-- Fabus Transformation -->
+            <div class="project-card">
+                <div class="project-header">
+                    <h3 class="project-title">Fabus-Transformation.com</h3>
+                    <a href="https://fabus-transformation.com" target="_blank" class="project-link">
+                        <i class="fas fa-external-link-alt"></i>
+                        Visit Website
+                    </a>
+                </div>
+                <p class="project-description">
+                    Transforming utility vehicles since 1999, Fabus offers customized solutions for various industries, including tourism, healthcare, and logistics. Professional industrial website showcasing their expertise and services.
+                </p>
+                <span class="project-tech">Industrial • Corporate • Service Portfolio</span>
+            </div>
+
+            <!-- MRH Bags -->
+            <div class="project-card">
+                <div class="project-header">
+                    <h3 class="project-title">MRH-Bags.com</h3>
+                    <a href="https://mrh-bags.com" target="_blank" class="project-link">
+                        <i class="fas fa-external-link-alt"></i>
+                        Visit Website
+                    </a>
+                </div>
+                <p class="project-description">
+                    MRH Bags crafts premium custom backpacks with attention to detail and quality materials. Explore their designs and collections through a beautifully designed product gallery website.
+                </p>
+                <span class="project-tech">Fashion • Product Gallery • Custom Design</span>
+            </div>
+
+            <!-- Golden Beach Villas -->
+            <div class="project-card">
+                <div class="project-header">
+                    <h3 class="project-title">GoldenBeachVillas.com</h3>
+                    <a href="https://goldenbeachvillas.com" target="_blank" class="project-link">
+                        <i class="fas fa-external-link-alt"></i>
+                        Visit Website
+                    </a>
+                </div>
+                <p class="project-description">
+                    Escape to paradise at Golden Beach Village Resort in Mozambique. Enjoy luxurious villas, a restaurant, and stunning sea views. Hospitality website with booking system and immersive visuals.
+                </p>
+                <span class="project-tech">Hospitality • Booking System • Luxury Resort</span>
+            </div>
+
+            <!-- Derrick Draa -->
+            <div class="project-card">
+                <div class="project-header">
+                    <h3 class="project-title">Derrick-Draa.com</h3>
+                    <a href="https://derrick-draa.com" target="_blank" class="project-link">
+                        <i class="fas fa-external-link-alt"></i>
+                        Visit Website
+                    </a>
+                </div>
+                <p class="project-description">
+                    Derrick Draa is a leading company in container maintenance and sales, offering services like repairs, inspections, and refurbishments for refrigerated containers. Professional industrial service website.
+                </p>
+                <span class="project-tech">Industrial • Service Portfolio • B2B</span>
+            </div>
+
+            <!-- LOHM -->
+            <div class="project-card">
+                <div class="project-header">
+                    <h3 class="project-title">LOHM.ma</h3>
+                    <a href="https://lohm.ma" target="_blank" class="project-link">
+                        <i class="fas fa-external-link-alt"></i>
+                        Visit Website
+                    </a>
+                </div>
+                <p class="project-description">
+                    LOHM is a men's skincare brand offering high-quality products tailored to men's specific skin needs, with a focus on simplicity, precision, and effectiveness. Clean, minimalist design with product focus.
+                </p>
+                <span class="project-tech">Beauty • Skincare • Minimalist Design</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills">
+        <div class="container">
+            <h2><i class="fas fa-tools"></i> Skills & Technologies</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Design & Development</h3>
+                    <p>WordPress, Shopify, HTML5, CSS3, JavaScript, Responsive Design</p>
+                </div>
+                <div class="skill-category">
+                    <h3>Design Tools</h3>
+                    <p>Adobe Creative Suite, Figma, Sketch</p>
+                </div>
+                <div class="skill-category">
+                    <h3>Specializations</h3>
+                    <p>E-commerce Development, CMS Customization, Mobile-First Design, UX</p>
+                </div>
+                <div class="skill-category">
+                    <h3>Industries</h3>
+                    <p>Retail, Hospitality, Industrial, Beauty, Luxury Goods</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <h3><i class="fas fa-handshake"></i> Let's Work Together</h3>
+            <p>Ready to bring your vision to life? Contact me today to start your next project!</p>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        function toggleImage(project, view) {
+            // Hide all image containers for this project
+            const containers = document.querySelectorAll(`[id^="${project}-"]`);
+            containers.forEach(container => {
+                container.classList.remove('active');
+            });
+
+            // Remove active class from all buttons for this project
+            const buttons = document.querySelectorAll(`button[onclick*="${project}"]`);
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show selected image container
+            document.getElementById(`${project}-${view}`).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Smooth scrolling for any internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add scroll animation
+        window.addEventListener('scroll', () => {
+            const cards = document.querySelectorAll('.project-card');
+            cards.forEach(card => {
+                const cardTop = card.getBoundingClientRect().top;
+                const cardVisible = 150;
+
+                if (cardTop < window.innerHeight - cardVisible) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        // Initialize cards with animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.project-card');
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            });
+        });
+    </script>
+</body>
+</html>
