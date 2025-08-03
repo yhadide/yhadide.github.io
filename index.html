@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -189,42 +190,100 @@
             padding: 0.5rem 1rem;
             border-radius: 25px;
             cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .toggle-btn.active {
-            background: #e67e22;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
         .toggle-btn:hover {
             background: #2980b9;
+            transform: translateY(-2px);
         }
 
-        .toggle-btn.active:hover {
+        .toggle-btn.expanded {
+            background: #e67e22;
+        }
+
+        .toggle-btn.expanded:hover {
             background: #d35400;
+        }
+
+        .toggle-btn.expanded::after {
+            content: " ▼";
+            font-size: 0.8rem;
         }
 
         .image-container {
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            display: none;
             cursor: pointer;
-            transition: transform 0.3s ease;
+            transition: all 0.4s ease;
+            max-height: 0;
+            opacity: 0;
+            margin-top: 0;
         }
 
-        .image-container:hover {
-            transform: scale(1.02);
+        .image-container.expanded {
+            max-height: 500px;
+            opacity: 1;
+            margin-top: 1rem;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
-        .image-container.active {
-            display: block;
+        .image-container.expanded:hover {
+            transform: none;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
 
         .image-container img {
             width: 100%;
             height: auto;
             display: block;
+            min-height: 300px;
+            object-fit: cover;
+            object-position: top;
+        }
+
+        .image-container.expanded img {
+            object-fit: contain;
+            min-height: auto;
+        }
+
+        /* Custom scrollbar for image containers */
+        .image-container.expanded::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .image-container.expanded::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .image-container.expanded::-webkit-scrollbar-thumb {
+            background: #e67e22;
+            border-radius: 4px;
+        }
+
+        .image-container.expanded::-webkit-scrollbar-thumb:hover {
+            background: #d35400;
+        }
+
+        .preview-text {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px dashed #e0e0e0;
+        }
+
+        .preview-text i {
+            color: #e67e22;
+            margin-right: 0.5rem;
         }
 
         /* Modal */
@@ -238,40 +297,78 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.9);
             animation: fadeIn 0.3s;
+            overflow: auto;
+            padding: 20px;
         }
 
         .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            position: relative;
+            margin: 0 auto;
             max-width: 90%;
-            max-height: 90%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .modal-content img {
-            width: 100%;
+            max-width: 100%;
             height: auto;
             border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         .close {
-            position: absolute;
-            top: 15px;
-            right: 35px;
+            position: fixed;
+            top: 20px;
+            right: 40px;
             color: #f1f1f1;
             font-size: 40px;
             font-weight: bold;
             cursor: pointer;
+            z-index: 1001;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
         }
 
         .close:hover {
             color: #e67e22;
+            background: rgba(0, 0, 0, 0.8);
+            transform: scale(1.1);
+        }
+
+        /* Modal scrollbar styling */
+        .modal::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        .modal::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .modal::-webkit-scrollbar-thumb {
+            background: #e67e22;
+            border-radius: 6px;
+        }
+
+        .modal::-webkit-scrollbar-thumb:hover {
+            background: #d35400;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         /* Skills Section */
@@ -337,13 +434,25 @@
                 flex-direction: column;
             }
 
+            .modal {
+                padding: 10px;
+            }
+
             .modal-content {
                 max-width: 95%;
-                max-height: 95%;
+            }
+
+            .close {
+                top: 10px;
+                right: 15px;
+                width: 50px;
+                height: 50px;
+                font-size: 30px;
             }
         }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
@@ -366,7 +475,8 @@
                 </div>
                 <div class="contact-item">
                     <i class="fab fa-linkedin"></i>
-                    <a href="https://www.linkedin.com/in/youness-hadide-157751267/" target="_blank" style="color: #7f8c8d; text-decoration: none;">LinkedIn</a>
+                    <a href="https://www.linkedin.com/in/youness-hadide-157751267/" target="_blank"
+                        style="color: #7f8c8d; text-decoration: none;">LinkedIn</a>
                 </div>
             </div>
         </div>
@@ -376,7 +486,11 @@
     <section class="about">
         <div class="container">
             <h2><i class="fas fa-user"></i> About Me</h2>
-            <p>Creative and detail-oriented web designer with real-world experience crafting visually appealing and functional websites for businesses and agencies. Recently graduated as a State Engineer in Computer Science, I bring a technical foundation paired with a strong design sensibility. My current focus is on delivering clean, performant, and user-friendly web experiences across CMS platforms like WordPress and Shopify, as well as custom-built solutions.</p>
+            <p>Creative and detail-oriented web designer with real-world experience crafting visually appealing and
+                functional websites for businesses and agencies. Recently graduated as a State Engineer in Computer
+                Science, I bring a technical foundation paired with a strong design sensibility. My current focus is on
+                delivering clean, performant, and user-friendly web experiences across CMS platforms like WordPress and
+                Shopify, as well as custom-built solutions.</p>
         </div>
     </section>
 
@@ -395,20 +509,24 @@
                     </a>
                 </div>
                 <p class="project-description">
-                    Discover the world of GelBall, an eco-friendly recreational product. Designed and developed a vibrant e-commerce website featuring innovative recreational products with a modern design using bold orange and blue color scheme.
+                    Discover the world of GelBall, an eco-friendly recreational product. Designed and developed a
+                    vibrant e-commerce website featuring innovative recreational products with a modern design using
+                    bold orange and blue color scheme.
                 </p>
                 <span class="project-tech">WordPress • E-commerce • Responsive Design</span>
-                
+
                 <div class="image-toggle">
                     <div class="toggle-buttons">
-                        <button class="toggle-btn active" onclick="toggleImage('gelball', 'desktop')">
+                        <button class="toggle-btn" onclick="toggleImage('gelball', 'desktop')">
                             <i class="fas fa-desktop"></i> Desktop View
                         </button>
                         <button class="toggle-btn" onclick="toggleImage('gelball', 'mobile')">
                             <i class="fas fa-mobile-alt"></i> Mobile View
                         </button>
                     </div>
-                    <div id="gelball-desktop" class="image-container active" onclick="openModal(this)">
+                    <p class="preview-text"><i class="fas fa-eye"></i>Click on a view button above to see the website
+                        preview</p>
+                    <div id="gelball-desktop" class="image-container" onclick="openModal(this)">
                         <img src="gelball_desktop.png" alt="GelBall Desktop View" />
                     </div>
                     <div id="gelball-mobile" class="image-container" onclick="openModal(this)">
@@ -427,24 +545,27 @@
                     </a>
                 </div>
                 <p class="project-description">
-                    Indulge in luxury perfumes with Parfum Royal. Browse their collection of high-quality fragrances for men and women. Elegant e-commerce platform with sophisticated design and product showcases.
+                    Indulge in luxury perfumes with Parfum Royal. Browse their collection of high-quality fragrances for
+                    men and women. Elegant e-commerce platform with sophisticated design and product showcases.
                 </p>
                 <span class="project-tech">E-commerce • Luxury Design • Product Showcase</span>
-                
+
                 <div class="image-toggle">
                     <div class="toggle-buttons">
-                        <button class="toggle-btn active" onclick="toggleImage('parfum', 'desktop')">
+                        <button class="toggle-btn" onclick="toggleImage('parfum', 'desktop')">
                             <i class="fas fa-desktop"></i> Desktop View
                         </button>
                         <button class="toggle-btn" onclick="toggleImage('parfum', 'mobile')">
                             <i class="fas fa-mobile-alt"></i> Mobile View
                         </button>
                     </div>
-                    <div id="parfum-desktop" class="image-container active" onclick="openModal(this)">
-                        <img src="parfum_desktop.png" alt="Parfum Royal Desktop View" />
+                    <p class="preview-text"><i class="fas fa-eye"></i>Click on a view button above to see the website
+                        preview</p>
+                    <div id="parfum-desktop" class="image-container" onclick="openModal(this)">
+                        <img src="parfumroyal_desktop.png" alt="Parfum Royal Desktop View" />
                     </div>
                     <div id="parfum-mobile" class="image-container" onclick="openModal(this)">
-                        <img src="parfum_mobile.png" alt="Parfum Royal Mobile View" />
+                        <img src="parfumroyal_mobile.png" alt="Parfum Royal Mobile View" />
                     </div>
                 </div>
             </div>
@@ -459,20 +580,24 @@
                     </a>
                 </div>
                 <p class="project-description">
-                    Transforming utility vehicles since 1999, Fabus offers customized solutions for various industries, including tourism, healthcare, and logistics. Professional industrial website showcasing their expertise and services.
+                    Transforming utility vehicles since 1999, Fabus offers customized solutions for various industries,
+                    including tourism, healthcare, and logistics. Professional industrial website showcasing their
+                    expertise and services.
                 </p>
                 <span class="project-tech">Industrial • Corporate • Service Portfolio</span>
-                
+
                 <div class="image-toggle">
                     <div class="toggle-buttons">
-                        <button class="toggle-btn active" onclick="toggleImage('fabus', 'desktop')">
+                        <button class="toggle-btn" onclick="toggleImage('fabus', 'desktop')">
                             <i class="fas fa-desktop"></i> Desktop View
                         </button>
                         <button class="toggle-btn" onclick="toggleImage('fabus', 'mobile')">
                             <i class="fas fa-mobile-alt"></i> Mobile View
                         </button>
                     </div>
-                    <div id="fabus-desktop" class="image-container active" onclick="openModal(this)">
+                    <p class="preview-text"><i class="fas fa-eye"></i>Click on a view button above to see the website
+                        preview</p>
+                    <div id="fabus-desktop" class="image-container" onclick="openModal(this)">
                         <img src="fabus_desktop.png" alt="Fabus Desktop View" />
                     </div>
                     <div id="fabus-mobile" class="image-container" onclick="openModal(this)">
@@ -491,20 +616,23 @@
                     </a>
                 </div>
                 <p class="project-description">
-                    MRH Bags crafts premium custom backpacks with attention to detail and quality materials. Explore their designs and collections through a beautifully designed product gallery website.
+                    MRH Bags crafts premium custom backpacks with attention to detail and quality materials. Explore
+                    their designs and collections through a beautifully designed product gallery website.
                 </p>
                 <span class="project-tech">Fashion • Product Gallery • Custom Design</span>
-                
+
                 <div class="image-toggle">
                     <div class="toggle-buttons">
-                        <button class="toggle-btn active" onclick="toggleImage('mrh', 'desktop')">
+                        <button class="toggle-btn" onclick="toggleImage('mrh', 'desktop')">
                             <i class="fas fa-desktop"></i> Desktop View
                         </button>
                         <button class="toggle-btn" onclick="toggleImage('mrh', 'mobile')">
                             <i class="fas fa-mobile-alt"></i> Mobile View
                         </button>
                     </div>
-                    <div id="mrh-desktop" class="image-container active" onclick="openModal(this)">
+                    <p class="preview-text"><i class="fas fa-eye"></i>Click on a view button above to see the website
+                        preview</p>
+                    <div id="mrh-desktop" class="image-container" onclick="openModal(this)">
                         <img src="mrh_desktop.png" alt="MRH Bags Desktop View" />
                     </div>
                     <div id="mrh-mobile" class="image-container" onclick="openModal(this)">
@@ -523,24 +651,27 @@
                     </a>
                 </div>
                 <p class="project-description">
-                    Escape to paradise at Golden Beach Village Resort in Mozambique. Enjoy luxurious villas, a restaurant, and stunning sea views. Hospitality website with booking system and immersive visuals.
+                    Escape to paradise at Golden Beach Village Resort in sidi bouknadel. Enjoy luxurious villas, a
+                    restaurant, and stunning sea views. 
                 </p>
-                <span class="project-tech">Hospitality • Booking System • Luxury Resort</span>
-                
+                <span class="project-tech">Luxury living</span>
+
                 <div class="image-toggle">
                     <div class="toggle-buttons">
-                        <button class="toggle-btn active" onclick="toggleImage('golden', 'desktop')">
+                        <button class="toggle-btn" onclick="toggleImage('golden', 'desktop')">
                             <i class="fas fa-desktop"></i> Desktop View
                         </button>
                         <button class="toggle-btn" onclick="toggleImage('golden', 'mobile')">
                             <i class="fas fa-mobile-alt"></i> Mobile View
                         </button>
                     </div>
-                    <div id="golden-desktop" class="image-container active" onclick="openModal(this)">
-                        <img src="golden_desktop.png" alt="Golden Beach Villas Desktop View" />
+                    <p class="preview-text"><i class="fas fa-eye"></i>Click on a view button above to see the website
+                        preview</p>
+                    <div id="golden-desktop" class="image-container" onclick="openModal(this)">
+                        <img src="goden_desktop.png" alt="Golden Beach Villas Desktop View" />
                     </div>
                     <div id="golden-mobile" class="image-container" onclick="openModal(this)">
-                        <img src="golden_mobile.png" alt="Golden Beach Villas Mobile View" />
+                        <img src="goden_mobile.png" alt="Golden Beach Villas Mobile View" />
                     </div>
                 </div>
             </div>
@@ -555,20 +686,24 @@
                     </a>
                 </div>
                 <p class="project-description">
-                    Derrick Draa is a leading company in container maintenance and sales, offering services like repairs, inspections, and refurbishments for refrigerated containers. Professional industrial service website.
+                    Derrick Draa is a leading company in container maintenance and sales, offering services like
+                    repairs, inspections, and refurbishments for refrigerated containers. Professional industrial
+                    service website.
                 </p>
                 <span class="project-tech">Industrial • Service Portfolio • B2B</span>
-                
+
                 <div class="image-toggle">
                     <div class="toggle-buttons">
-                        <button class="toggle-btn active" onclick="toggleImage('derrick', 'desktop')">
+                        <button class="toggle-btn" onclick="toggleImage('derrick', 'desktop')">
                             <i class="fas fa-desktop"></i> Desktop View
                         </button>
                         <button class="toggle-btn" onclick="toggleImage('derrick', 'mobile')">
                             <i class="fas fa-mobile-alt"></i> Mobile View
                         </button>
                     </div>
-                    <div id="derrick-desktop" class="image-container active" onclick="openModal(this)">
+                    <p class="preview-text"><i class="fas fa-eye"></i>Click on a view button above to see the website
+                        preview</p>
+                    <div id="derrick-desktop" class="image-container" onclick="openModal(this)">
                         <img src="derrick_desktop.png" alt="Derrick Draa Desktop View" />
                     </div>
                     <div id="derrick-mobile" class="image-container" onclick="openModal(this)">
@@ -587,20 +722,24 @@
                     </a>
                 </div>
                 <p class="project-description">
-                    LOHM is a men's skincare brand offering high-quality products tailored to men's specific skin needs, with a focus on simplicity, precision, and effectiveness. Clean, minimalist design with product focus.
+                    LOHM is a men's skincare brand offering high-quality products tailored to men's specific skin needs,
+                    with a focus on simplicity, precision, and effectiveness. Clean, minimalist design with product
+                    focus.
                 </p>
                 <span class="project-tech">Beauty • Skincare • Minimalist Design</span>
-                
+
                 <div class="image-toggle">
                     <div class="toggle-buttons">
-                        <button class="toggle-btn active" onclick="toggleImage('lohm', 'desktop')">
+                        <button class="toggle-btn" onclick="toggleImage('lohm', 'desktop')">
                             <i class="fas fa-desktop"></i> Desktop View
                         </button>
                         <button class="toggle-btn" onclick="toggleImage('lohm', 'mobile')">
                             <i class="fas fa-mobile-alt"></i> Mobile View
                         </button>
                     </div>
-                    <div id="lohm-desktop" class="image-container active" onclick="openModal(this)">
+                    <p class="preview-text"><i class="fas fa-eye"></i>Click on a view button above to see the website
+                        preview</p>
+                    <div id="lohm-desktop" class="image-container" onclick="openModal(this)">
                         <img src="lohm_desktop.png" alt="LOHM Desktop View" />
                     </div>
                     <div id="lohm-mobile" class="image-container" onclick="openModal(this)">
@@ -619,10 +758,6 @@
                 <div class="skill-category">
                     <h3>Design & Development</h3>
                     <p>WordPress, Shopify, HTML5, CSS3, JavaScript, Responsive Design</p>
-                </div>
-                <div class="skill-category">
-                    <h3>Design Tools</h3>
-                    <p>Adobe Creative Suite, Figma, Sketch</p>
                 </div>
                 <div class="skill-category">
                     <h3>Specializations</h3>
@@ -654,30 +789,42 @@
 
     <script>
         function toggleImage(project, view) {
+            const targetContainer = document.getElementById(`${project}-${view}`);
+            const clickedButton = event.target;
+            const isCurrentlyExpanded = targetContainer.classList.contains('expanded');
+
             // Hide all image containers for this project
             const containers = document.querySelectorAll(`[id^="${project}-"]`);
             containers.forEach(container => {
-                container.classList.remove('active');
+                container.classList.remove('expanded');
             });
 
-            // Remove active class from all buttons for this project
+            // Remove expanded class from all buttons for this project
             const buttons = document.querySelectorAll(`button[onclick*="${project}"]`);
             buttons.forEach(button => {
-                button.classList.remove('active');
+                button.classList.remove('expanded');
             });
 
-            // Show selected image container
-            document.getElementById(`${project}-${view}`).classList.add('active');
+            // If the clicked image wasn't expanded, expand it
+            if (!isCurrentlyExpanded) {
+                targetContainer.classList.add('expanded');
+                clickedButton.classList.add('expanded');
 
-            // Add active class to clicked button
-            event.target.classList.add('active');
+                // Smooth scroll to the image after a short delay to allow expansion
+                setTimeout(() => {
+                    targetContainer.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }, 200);
+            }
         }
 
         function openModal(imageContainer) {
             const modal = document.getElementById('imageModal');
             const modalImg = document.getElementById('modalImage');
             const img = imageContainer.querySelector('img');
-            
+
             modal.style.display = 'block';
             modalImg.src = img.src;
             modalImg.alt = img.alt;
@@ -688,7 +835,7 @@
         }
 
         // Close modal when clicking outside the image
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             const modal = document.getElementById('imageModal');
             if (event.target == modal) {
                 modal.style.display = 'none';
@@ -696,7 +843,7 @@
         }
 
         // Close modal with Escape key
-        document.addEventListener('keydown', function(event) {
+        document.addEventListener('keydown', function (event) {
             if (event.key === 'Escape') {
                 closeModal();
             }
@@ -718,7 +865,7 @@
             cards.forEach(card => {
                 const cardTop = card.getBoundingClientRect().top;
                 const cardVisible = 150;
-                
+
                 if (cardTop < window.innerHeight - cardVisible) {
                     card.style.opacity = '1';
                     card.style.transform = 'translateY(0)';
@@ -737,4 +884,5 @@
         });
     </script>
 </body>
+
 </html>
